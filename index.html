@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokenBoard Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .portal-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1);
+        }
+
+        .portal-card i {
+            font-size: 32px;
+        }
+
+        .portal-card h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #edf2f7;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="css/notifications.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Innovative Interiors</h1>
+            <p class="subtitle">Lunch Tokens 🍴</p>
+        </header>
+
+        <div class="portal-grid">
+            <div class="portal-card" onclick="openModal('employee')">
+                <span>👤</span>
+                <h3>Employee</h3>
+            </div>
+            <div class="portal-card" onclick="openModal('canteen')">
+                <span>🍳</span>
+                <h3>Canteen</h3>
+            </div>
+            <div class="portal-card" onclick="openModal('admin')">
+                <span>🛡️</span>
+                <h3>Admin</h3>
+            </div>
+        </div>
+
+        <p class="developed-by"
+            style="text-align: center; font-size: 10px; color: #888; margin-top: 40px; opacity: 0.7;">
+            developed by <a href="https://www.youtube.com/channel/UC6McNBm7VIaLlwAjKOP5_VA" target="_blank"
+                style="color: inherit; text-decoration: none; font-weight: 600;">Codearcade</a>
+        </p>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modalTitle">Login</h2>
+            <p id="errorMsg" class="error-msg">Incorrect password!</p>
+            <input type="password" id="targetPwd" placeholder="Enter Password" autofocus>
+            <div class="btn-group">
+                <button onclick="closeModal()" style="background: #636e72;">Cancel</button>
+                <button onclick="submitLogin()">Access</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        let currentRole = '';
+
+        function openModal(role) {
+            // If already logged in, redirect immediately
+            if (localStorage.getItem(`${role}Auth`) === "true") {
+                window.location.href = AUTH_CONFIG[role].redirect;
+                return;
+            }
+
+            currentRole = role;
+            document.getElementById('modalTitle').innerText = role.charAt(0).toUpperCase() + role.slice(1) + " Login";
+            document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('targetPwd').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('targetPwd').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function submitLogin() {
+            const pwd = document.getElementById('targetPwd').value;
+            if (verifyPassword(currentRole, pwd)) {
+                window.location.href = AUTH_CONFIG[currentRole].redirect;
+            } else {
+                showNotification("Incorrect password! Please try again.", "error");
+                document.getElementById('targetPwd').value = '';
+                document.getElementById('targetPwd').focus();
+            }
+        }
+
+        // Listen for Enter key
+        document.getElementById('targetPwd').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') submitLogin();
+        });
+
+        // Auto-open modal if coming from protected redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        const target = urlParams.get('target');
+        if (target) openModal(target);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canteen Token Board</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/notifications.css">
+</head>
+
+<body>
+    <script src="js/auth.js"></script>
+    <script>checkPageAuth('canteen');</script>
+
+    <div class="container wide">
+        <header>
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 5px;">
+                <h1 style="margin: 0;">🍽️ Canteen Board</h1>
+                <button onclick="logout()"
+                    style="background: #e74c3c; width: 35px; height: 35px; border-radius: 8px; padding: 0; font-size: 14px; flex: none;"
+                    title="Logout">🚪</button>
+            </div>
+            <p class="subtitle">Live Preparation Status</p>
+        </header>
+
+        <div class="status-section">
+            <h2><span>🟡</span> Pending</h2>
+            <div id="pendingTokens" class="token-grid"></div>
+        </div>
+
+        <div class="status-section">
+            <h2><span>✅</span> Served</h2>
+            <div id="servedTokens" class="token-grid served"></div>
+        </div>
+        <p class="developed-by"
+            style="text-align: center; font-size: 10px; color: #888; margin-top: 30px; opacity: 0.7;">
+            developed by <a href="https://www.youtube.com/channel/UC6McNBm7VIaLlwAjKOP5_VA" target="_blank"
+                style="color: inherit; text-decoration: none; font-weight: 600;">Codearcade</a>
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseConfig.js"></script>
+    <script src="js/dailyReset.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/canteenBoard.js"></script>
+</body>
+
+</html>
