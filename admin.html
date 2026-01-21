@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Report – TokenBoard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <script src="js/auth.js"></script>
+    <script>checkPageAuth('admin');</script>
+
+    <div class="container" style="position: relative;">
+        <header class="admin-header" style="flex-direction: column; align-items: stretch;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+                <div>
+                    <h1 style="margin: 0;">📊 Daily Report</h1>
+                    <p class="subtitle" id="reportDate" style="margin-bottom: 0;">Canteen Summary</p>
+                </div>
+                <button onclick="localStorage.clear(); location.href='index.html'"
+                    style="background: #e74c3c; width: 35px; height: 35px; border-radius: 8px; padding: 0; font-size: 14px; flex: none;"
+                    title="Logout">🚪</button>
+            </div>
+            <div class="btn-group" style="margin-top: 15px;">
+                <button onclick="location.href='adminIssuer.html'" style="background: #007bff; padding: 10px 15px;">➕
+                    Issue</button>
+                <button onclick="location.href='viewTokens.html'" style="background: #636e72; padding: 10px 15px;">👁️
+                    View</button>
+            </div>
+        </header>
+
+        <div class="report-box">
+            <p>Total Tokens Issued <strong id="issuedCount">0</strong></p>
+            <p>Employees Served <strong id="empCount">0</strong></p>
+            <p>Guests Served <strong id="guestCount">0</strong></p>
+            <p>Total Meals Served <strong id="servedCount">0</strong></p>
+            <p style="border-bottom: none; margin-bottom: 0; padding-top: 10px; font-weight: 800;">
+                Pending Deliveries <span id="pendingCount" style="color: #e67e22; font-size: 22px;">0</span>
+            </p>
+        </div>
+
+        <button onclick="window.print()" style="margin-top: 25px;">🖨️ Print Report</button>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 20px;">
+            Generated automatically by TokenBoard Engine
+        </p>
+        <p class="developed-by"
+            style="text-align: center; font-size: 10px; color: #888; margin-top: 30px; opacity: 0.7;">
+            developed by <a href="https://www.youtube.com/channel/UC6McNBm7VIaLlwAjKOP5_VA" target="_blank"
+                style="color: inherit; text-decoration: none; font-weight: 600;">Codearcade</a>
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseConfig.js"></script>
+    <script src="js/dailyReset.js"></script>
+    <script src="js/adminReport.js"></script>
+</body>
+
+</html>
